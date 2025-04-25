@@ -1,101 +1,120 @@
 # Telecom_SDA_S3
 
-## Project Title  
-**Revenue Analysis of Megaline Prepaid Plans: Surf vs. Ultimate**  
+## Statistical Data Analysis for Megaline  
+**Revenue Comparison: Surf vs. Ultimate Prepaid Plans**  
 
-## Project Overview  
-This project analyzes customer behavior to determine which of Megaline's prepaid plans, Surf or Ultimate, generates more revenue. By examining usage data from 500 clients in 2018, this analysis will provide insights into customer behavior and guide Megaline's advertising budget allocation.  
+---
+
+## Overview  
+This project analyzes customer behavior to determine which of Megaline's prepaid plans—**Surf** or **Ultimate**—generates higher monthly revenue. Using 2018 usage data from 500 customers, the analysis supports strategic decisions for advertising and pricing.
+
+---
 
 ## Objectives  
-1. Clean and prepare the provided datasets for analysis.  
-2. Analyze client behavior for calls, texts, and internet usage.  
-3. Calculate monthly revenue per user, considering plan limits and overage charges.  
-4. Perform hypothesis testing to:  
-   - Compare average revenues between the two plans.  
-   - Examine revenue differences between regions (e.g., NY-NJ area vs. others).  
-5. Present conclusions and actionable insights for Megaline's commercial department.  
+1. Prepare and clean the datasets for analysis.  
+2. Analyze usage behavior in terms of call minutes, texts, and data per user per month.  
+3. Calculate monthly revenue for each customer, accounting for overage fees.  
+4. Test hypotheses to:  
+   - Compare average revenues between Surf and Ultimate plan users.  
+   - Evaluate revenue differences by geographic region (e.g., NY-NJ area vs. others).  
+5. Provide actionable insights for Megaline’s commercial team.
 
-## Dataset Description  
+---
+
+## Data Overview  
+⚠️ **Note:** The datasets used in this project are **not provided** in the repository. This project is for demonstration and educational purposes only.
+
 The analysis is based on five datasets:  
+- **Users** – Customer demographics and subscription details  
+- **Calls** – Call durations per user per date  
+- **Messages** – Text messages sent by date and user  
+- **Internet** – Web session data (MB used per session)  
+- **Plans** – Plan pricing and monthly allowances  
 
-### 1. Users  
-- Contains demographic and plan details of clients.  
-- Key columns:  
-  - `user_id`  
-  - `city`  
-  - `plan`  
-  - `reg_date`  
-  - `churn_date`  
-
-### 2. Calls  
-- Includes data on calls made by users.  
-- Key columns:  
-  - `user_id`  
-  - `call_date`  
-  - `duration`  
-
-### 3. Messages  
-- Tracks text messages sent by users.  
-- Key columns:  
-  - `user_id`  
-  - `message_date`  
-
-### 4. Internet  
-- Logs web session usage data.  
-- Key columns:  
-  - `user_id`  
-  - `session_date`  
-  - `mb_used`  
-
-### 5. Plans  
-- Details of Surf and Ultimate plans, including limits and overage charges.  
-- Key columns:  
-  - `plan_name`  
-  - `usd_monthly_fee`  
-  - `minutes_included`  
-  - `messages_included`  
-  - `mb_per_month_included`  
-  - `usd_per_minute`  
-  - `usd_per_message`  
-  - `usd_per_gb`  
+---
 
 ## Project Workflow  
-1. **Data Preparation**  
-   - Convert data types as needed.  
-   - Handle missing values and outliers.  
-   - Calculate monthly usage metrics per user for calls, texts, and internet.  
 
-2. **Revenue Calculation**  
-   - Compute monthly revenue by considering:  
-     - Plan limits (minutes, messages, and data).  
-     - Overage charges (calls, texts, and extra data usage).  
+### 1. Data Preparation  
+- Converted date fields to datetime objects  
+- Merged usage data with user and plan info  
+- Aggregated monthly usage per user for:  
+  - Call minutes (rounded up per call)  
+  - Text messages  
+  - Internet usage (MB to GB, rounded up)  
+- Handled missing data and churned customers appropriately  
 
-3. **Data Analysis**  
-   - Visualize and describe distributions of calls, texts, and internet usage.  
-   - Summarize key metrics such as mean, variance, and standard deviation.  
+### 2. Revenue Calculation  
+- Calculated monthly revenue by summing:  
+  - Base monthly fee  
+  - Overage fees for:  
+    - Minutes (if over plan limit)  
+    - Messages (if over plan limit)  
+    - Internet (rounded GB overage × $ per GB)
 
-4. **Hypothesis Testing**  
-   - Compare average revenues between the Surf and Ultimate plans.  
-   - Analyze revenue differences based on geographic regions.  
+### 3. Exploratory Analysis  
+- Surf users tend to use fewer minutes, texts, and data on average  
+- Ultimate users have more generous limits, resulting in fewer overage charges  
+- Visualized distributions using histograms and boxplots  
+- Calculated descriptive statistics (mean, std. dev., etc.)
 
-5. **Conclusion**  
-   - Provide actionable insights to support Megaline’s advertising and pricing strategies.  
+### 4. Hypothesis Testing  
+#### A. Revenue by Plan  
+- **Null Hypothesis (H₀):** Mean revenue of Surf and Ultimate users is equal  
+- **Alternative Hypothesis (H₁):** Mean revenues differ  
+- **Result:**  
+  - p-value < 0.05  
+  - ✅ Reject H₀ → There **is** a statistically significant difference  
+  - **Ultimate** plan users generate higher average revenue  
 
-## Key Insights and Deliverables  
-- Detailed analysis of user behavior for both plans.  
-- Revenue comparisons with visualizations and descriptive statistics.  
-- Hypothesis test results with clear explanations.  
-- Recommendations for Megaline’s commercial strategy.  
+#### B. Revenue by Region (NY-NJ vs. Others)  
+- **Null Hypothesis (H₀):** No revenue difference between NY-NJ area and other regions  
+- **Result:**  
+  - p-value > 0.05  
+  - ❌ Do not reject H₀ → No statistically significant difference in average revenue by region  
 
-## Requirements  
-- **Software**: Jupyter Notebook, Python 3.x  
-- **Libraries**: `pandas`, `numpy`, `matplotlib`, `seaborn`, `scipy`  
+---
+
+## Key Findings & Conclusions  
+
+- **Ultimate plan generates more revenue**:  
+  On average, Ultimate users yield higher monthly revenue, primarily due to higher base fees and more consistent usage.
+  
+- **Surf plan users incur more overage fees**, especially for data. However, even with overages, they tend to generate less total revenue.
+
+- **No regional revenue difference**: Customers in the NY-NJ region do not spend more than those in other areas, suggesting regional advertising should not be prioritized based on revenue alone.
+
+---
+
+## Recommendations  
+
+- 📣 **Focus marketing on Ultimate plan**: Higher monthly fees and lower churn potential make it more profitable. Consider emphasizing its value in advertising.
+
+- 📊 **Analyze churn data further**: Future work could assess if plan type correlates with churn behavior.
+
+- 🌐 **Consider increasing Surf overage fees** or adjusting data limits to boost its profitability.
+
+---
+
+## Deliverables  
+- Jupyter notebook with:
+  - Cleaned and merged datasets  
+  - Monthly usage and revenue calculations  
+  - Visualizations of usage patterns  
+  - Two hypothesis tests with statistical interpretations  
+- Strategic insights to support pricing and marketing decisions  
+
+---
+
+## Tools & Libraries  
+- Jupyter Notebook  
+- Python 3.x  
+- `pandas`, `numpy`, `matplotlib`, `seaborn`, `scipy`  
+
+---
 
 ## How to Use  
 1. Clone the repository.  
-2. Open the Jupyter Notebook file in your preferred environment.  
-3. Execute the cells step-by-step to reproduce the analysis.  
-4. Review the outputs, visualizations, and conclusions at the end of the notebook.  
-
-## License  
-This project is for educational purposes and is not intended for commercial use.  
+2. Ensure the required datasets are available locally (not included here).  
+3. Open `Telecom_S3.ipynb` in Jupyter Notebook.  
+4. Run all cells to reproduce the analysis.
