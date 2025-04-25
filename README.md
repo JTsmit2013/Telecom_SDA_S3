@@ -1,7 +1,5 @@
 # Telecom_SDA_S3
 
-# README  
-
 ## Project Title  
 **Revenue Analysis of Megaline Prepaid Plans: Surf vs. Ultimate**  
 
